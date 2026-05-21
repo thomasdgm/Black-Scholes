@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 #include <random>
+#include <cmath>
 #include "normalDistribution.h"
 
 namespace normalDistribution{
@@ -24,7 +25,11 @@ namespace normalDistribution{
         return nbr;
     }
 
-    double normalCDF(double const nombre){
-        return 0.5 * std::erfc(-nombre/std::sqrt(2.0));
+    double normalCDF(double const x){
+        return 0.5 * std::erfc(-x/std::sqrt(2.0));
+    }
+
+    double densite(double const x){
+        return (1/(sqrt(2*M_PI))*exp(-(pow(x,2)/2)));
     }
 }

@@ -6,7 +6,9 @@ namespace normalDistribution {
 
     double genererNombre(double const average, double const deviationType);
 
-    double normalCDF(double x);
+    double normalCDF(double const x);
+
+    double densite(double const x);
 }
 
 
