@@ -2,7 +2,7 @@
 #define _GAMMA_H
 
 namespace gammas{
-    double calculate_gamma(const double spot, const double strike, const double interest_rate, const double volatility, const double time);
+    double calculate_gamma(const double S, const double K, const double r, const double sigma, const double T);
 }
 
 

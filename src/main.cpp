@@ -3,6 +3,9 @@ using namespace std;
 #include "normalDistribution.h"
 #include "delta.h"
 #include "gamma.h"
+#include "vega.h"
+#include "theta.h"
+#include "rho.h"
 
 int main(){
     normalDistribution::genererNombreDefaut();
@@ -15,8 +18,14 @@ int main(){
     double sigma = 0.2;  // Volatilité (20%)
     double T = 1.0;
     double d = delta::calculate_delta_call(S, K, r, sigma, T);
-    cout << d << endl;
+    cout << "Delta Call : " << d << endl;
     double g = gammas::calculate_gamma(S, K, r, sigma, T);
-    cout << g << endl;
+    cout << "Gamma : " << g << endl;
+    double v = vega::calculate_vega(S, K, r, sigma, T);
+    cout << "Vega : " << v << "%" << endl;
+    double t = theta::calculate_theta_call(S, K, r, sigma, T);
+    cout << "Theta Call : " << t << endl;
+    double rho = rho::calculate_rho_call(S, K, r, sigma, T);
+    cout << "Rho Call : " << rho << "%" << endl;
     return 0;
 }
