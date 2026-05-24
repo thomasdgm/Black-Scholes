@@ -1,10 +1,13 @@
 all: bin/test
 
-bin/test: obj/normalDistribution.o obj/delta.o obj/gamma.o obj/vega.o obj/theta.o obj/rho.o obj/main.o
-	g++ -o bin/test obj/normalDistribution.o obj/delta.o obj/gamma.o obj/vega.o obj/theta.o obj/rho.o obj/main.o
+bin/test: obj/normalDistribution.o obj/delta.o obj/gamma.o obj/vega.o obj/theta.o obj/rho.o obj/blackScholes.o obj/main.o
+	g++ -o bin/test obj/normalDistribution.o obj/delta.o obj/gamma.o obj/vega.o obj/theta.o obj/rho.o obj/blackScholes.o obj/main.o
 
-obj/main.o : src/normalDistribution.cpp src/delta.cpp src/gamma.cpp src/vega.cpp src/theta.cpp src/rho.cpp src/main.cpp
+obj/main.o : src/normalDistribution.cpp src/delta.cpp src/gamma.cpp src/vega.cpp src/theta.cpp src/rho.cpp src/blackScholes.cpp src/main.cpp
 	g++ -c src/main.cpp -o obj/main.o
+
+obj/blackScholes.o : src/blackScholes.cpp src/rho.cpp src/theta.cpp src/vega.cpp src/gamma.cpp src/gamma.h src/delta.h src/normalDistribution.h
+	g++ -c src/blackScholes.cpp -o obj/blackScholes.o
 
 obj/rho.o : src/rho.cpp src/theta.cpp src/vega.cpp src/gamma.cpp src/gamma.h src/delta.h src/normalDistribution.h
 	g++ -c src/rho.cpp -o obj/rho.o
