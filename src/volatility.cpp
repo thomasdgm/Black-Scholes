@@ -12,7 +12,7 @@ namespace volatility{
         double f = 1;
         double v = 1;
         int cmp = 0;
-        while(f > pow(10.0,-6.0)){
+        while(abs(f) > pow(10.0,-6.0)){
             cout << "cmp " << cmp << endl;
             cmp ++;
             if(cmp >= 100){
@@ -20,10 +20,10 @@ namespace volatility{
                 return -1;
             }else if(v < 0.0001){
                 cout << "Le vega est inférieur à 0,0001, la solution n'est donc pas fiable.";
-                v = 0,0001;
+                v = 0.0001;
             }else if(sigma < 0){
                 cout << "Sigma est inférieur à zéro.";
-                sigma = 0,0001;
+                sigma = 0.0001;
             }else if(sigma > 5){
                 cout << "Sigma est supérieur à 5 il y a divergence.";
                 sigma = 5;
