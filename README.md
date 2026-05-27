@@ -22,7 +22,6 @@ Thomas Dégremont
 ### Prérequis
 * Un compilateur C++ (g++)
 * Make
-* Librairie -SDL2
 
 ### Installation et lancement
 
