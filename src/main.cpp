@@ -8,12 +8,13 @@ using namespace std;
 #include "theta.h"
 #include "rho.h"
 #include "blackScholes.h"
+#include "volatility.h"
 
 int main(){
     double S = 100.0;    // Prix du sous-jacent
     double K = 100.0;    // Strike
     double r = 0.05;     // Taux d'intérêt (5%)
-    double sigma = 0.2;  // Volatilité (20%)
+    double sigma = 0.5;  // Volatilité (20%)
     double T = 1.0; // Temps restant
     double d = delta::calculate_delta_call(S, K, r, sigma, T);
     cout << "(Delta) Si l'action monte de 1€, je gagne : " << d << endl;
@@ -29,5 +30,7 @@ int main(){
     double bP = blackscholes::calculate_pricing_Put(S, K, r, sigma, T);
     cout << "Le prix de l'option Call devrait théoriquement être de : " << bC << endl;
     cout << "Le prix de l'option Put devrait théoriquement être de : " << bP << endl;
+    double vo = volatility::implied_volatility_Put(S,K,r,T,5.5735);
+    cout << vo << endl;
     return 0;
 }
