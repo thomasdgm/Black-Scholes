@@ -1,34 +1,66 @@
-all: bin/test
+CXX = g++
 
-bin/test: obj/normalDistribution.o obj/delta.o obj/gamma.o obj/vega.o obj/theta.o obj/rho.o obj/blackScholes.o obj/volatility.o obj/main.o
-	g++ -o bin/test obj/normalDistribution.o obj/delta.o obj/gamma.o obj/vega.o obj/theta.o obj/rho.o obj/blackScholes.o obj/volatility.o obj/main.o
+CORE_OBJS = obj/normalDistribution.o obj/delta.o obj/gamma.o obj/vega.o obj/theta.o obj/rho.o obj/blackScholes.o obj/volatility.o
+LIB_OBJS = obj/bridge.o $(CORE_OBJS)
 
-obj/main.o : src/normalDistribution.cpp src/delta.cpp src/gamma.cpp src/vega.cpp src/theta.cpp src/rho.cpp src/blackScholes.cpp src/volatility.cpp src/main.cpp
-	g++ -c src/main.cpp -o obj/main.o
+ifeq ($(OS),Windows_NT)
+	LIB = bin/blackScholes.dll
+	CLI = bin/blackScholes.exe
+	SHARED_FLAG = -shared -static-libgcc -static-libstdc++ -Wl,-Bstatic -lpthread -Wl,-Bdynamic
+	MKDIR = @if not exist bin mkdir bin & if not exist obj mkdir obj
+	COPY_RUNTIME = @powershell -NoProfile -Command "$$p = Split-Path (Get-Command g++ -ErrorAction SilentlyContinue).Source; if ($$p -and (Test-Path \"$$p\\libwinpthread-1.dll\")) { Copy-Item \"$$p\\libwinpthread-1.dll\" \"bin\\libwinpthread-1.dll\" -Force }"
+	CLEAN = cmd /C "if exist obj\*.o del /Q obj\*.o & if exist bin\* del /Q bin\*"
+else
+	LIB = bin/libblackScholes.so
+	CLI = bin/blackScholes
+	SHARED_FLAG = -shared -fPIC
+	MKDIR = mkdir -p bin obj
+	COPY_RUNTIME = @true
+	CLEAN = rm -f obj/*.o bin/*
+endif
 
-obj/volatility.o : src/volatility.cpp src/blackScholes.cpp src/vega.cpp
-	g++ -c src/volatility.cpp -o obj/volatility.o
+all: dirs bin/blackScholes $(LIB)
+lib: dirs $(LIB)
 
-obj/blackScholes.o : src/blackScholes.cpp src/rho.cpp src/theta.cpp src/vega.cpp src/gamma.cpp src/gamma.h src/delta.h src/normalDistribution.h
-	g++ -c src/blackScholes.cpp -o obj/blackScholes.o
+dirs:
+	$(MKDIR)
 
-obj/rho.o : src/rho.cpp src/theta.cpp src/vega.cpp src/gamma.cpp src/gamma.h src/delta.h src/normalDistribution.h
-	g++ -c src/rho.cpp -o obj/rho.o
+bin/blackScholes: $(CORE_OBJS) obj/main.o | dirs
+	$(CXX) -o bin/blackScholes $(CORE_OBJS) obj/main.o -Wl,-Bstatic -lpthread -Wl,-Bdynamic
 
-obj/theta.o : src/theta.cpp src/vega.cpp src/gamma.cpp src/gamma.h src/delta.h src/normalDistribution.h
-	g++ -c src/theta.cpp -o obj/theta.o
+$(LIB): $(LIB_OBJS) | dirs
+	$(CXX) $(SHARED_FLAG) $(LIB_OBJS) -o $(LIB)
+	$(COPY_RUNTIME)
 
-obj/vega.o : src/vega.cpp src/gamma.cpp src/gamma.h src/delta.h src/normalDistribution.h
-	g++ -c src/vega.cpp -o obj/vega.o
+obj/main.o: src/main.cpp
+	$(CXX) -c src/main.cpp -o obj/main.o
 
-obj/gamma.o : src/gamma.cpp src/gamma.h src/delta.h src/normalDistribution.h
-	g++ -c src/gamma.cpp -o obj/gamma.o
+obj/bridge.o: src/bridge.cpp
+	$(CXX) -c src/bridge.cpp -o obj/bridge.o
 
-obj/delta.o : src/delta.cpp src/delta.h src/normalDistribution.h
-	g++ -c src/delta.cpp -o obj/delta.o
+obj/volatility.o: src/volatility.cpp
+	$(CXX) -c src/volatility.cpp -o obj/volatility.o
 
-obj/normalDistribution.o: src/normalDistribution.cpp src/normalDistribution.h
-	g++ -c src/normalDistribution.cpp -o obj/normalDistribution.o
+obj/blackScholes.o: src/blackScholes.cpp
+	$(CXX) -c src/blackScholes.cpp -o obj/blackScholes.o
 
-clean : 
-	rm obj/*.o bin/*
+obj/rho.o: src/rho.cpp
+	$(CXX) -c src/rho.cpp -o obj/rho.o
+
+obj/theta.o: src/theta.cpp
+	$(CXX) -c src/theta.cpp -o obj/theta.o
+
+obj/vega.o: src/vega.cpp
+	$(CXX) -c src/vega.cpp -o obj/vega.o
+
+obj/gamma.o: src/gamma.cpp
+	$(CXX) -c src/gamma.cpp -o obj/gamma.o
+
+obj/delta.o: src/delta.cpp
+	$(CXX) -c src/delta.cpp -o obj/delta.o
+
+obj/normalDistribution.o: src/normalDistribution.cpp
+	$(CXX) -c src/normalDistribution.cpp -o obj/normalDistribution.o
+
+clean:
+	$(CLEAN)

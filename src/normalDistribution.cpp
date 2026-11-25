@@ -4,6 +4,8 @@ using namespace std;
 #include <cmath>
 #include "normalDistribution.h"
 
+constexpr double PI = 3.14159265358979323846;
+
 namespace normalDistribution{
     double genererNombreDefaut(){
         double average = 50.0;
@@ -30,6 +32,6 @@ namespace normalDistribution{
     }
 
     double densite(double const x){
-        return (1/(sqrt(2*M_PI))*exp(-(pow(x,2)/2)));
+        return (1/(sqrt(2*PI))*exp(-(pow(x,2)/2)));
     }
 }
