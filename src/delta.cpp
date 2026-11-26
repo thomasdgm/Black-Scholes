@@ -1,39 +1,27 @@
 #include <iostream>
-using namespace std;
 #include <cmath>
 #include "delta.h"
 #include "normalDistribution.h"
+using namespace std;
 
 namespace delta{
     double calculate_d1(const double S, const double K, const double r, const double sigma, const double T){
-        if(sigma*sqrt(T)==0){
-            cout << "Erreur on ne peut pas diviser par 0." << endl;
-            return -1;
+        if(S <= 0.0 || K <= 0.0 || sigma <= 0.0 || T <= 0.0){
+            cout << "Erreur : Un des paramètres (S, K, sigma, T) est inférieur ou égal à 0." << endl;
+            return std::nan("");
         }
         else{
             return (log(S/K)+(r+(pow(sigma,2))/2)*T)/(sigma*sqrt(T));}
     }
 
     double calculate_delta_call(const double S, const double K, const double r, const double sigma, const double T){
-        if(T < 0.0){
-            cout << "Erreur : Le temps est égal ou inferieur à zéro." << endl;
-            return -1;
-        }
-        else{
-            double d1 = calculate_d1(S, K, r, sigma, T);
-            return normalDistribution::normalCDF(d1);
-        }
+        double d1 = calculate_d1(S, K, r, sigma, T);
+        return normalDistribution::normalCDF(d1);
     }
 
     double calculate_delta_put(const double S, const double K, const double r, const double sigma, const double T){
-        if(T < 0.0){
-            cout << "Erreur : Le temps est égal ou inferieur à zéro." << endl;
-            return -1;
-        }
-        else{
-            double d1 = calculate_d1(S, K, r, sigma, T);
-            return normalDistribution::normalCDF(d1) - 1.0;
-        }
+        double d1 = calculate_d1(S, K, r, sigma, T);
+        return normalDistribution::normalCDF(d1) - 1.0;
     }
 }
 

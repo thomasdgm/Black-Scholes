@@ -1,8 +1,8 @@
 #include <iostream>
-using namespace std;
 #include <random>
 #include <cmath>
 #include "normalDistribution.h"
+using namespace std;
 
 constexpr double PI = 3.14159265358979323846;
 
@@ -10,8 +10,7 @@ namespace normalDistribution{
     double genererNombreDefaut(){
         double average = 50.0;
         double deviationType = 10.0;
-        std::random_device rd;
-        std::mt19937 gen(rd());
+        static std::mt19937 gen(std::random_device{}());
         std::normal_distribution<double> d(average, deviationType);
         double nbr = d(gen);
         cout << "Nombre générer aléatoirement : " << nbr << endl;
@@ -19,8 +18,7 @@ namespace normalDistribution{
     }
 
     double genererNombre(double const average, double const deviationType){
-        std::random_device rd;
-        std::mt19937 gen(rd());
+        static std::mt19937 gen(std::random_device{}());
         std::normal_distribution<double> d(average, deviationType);
         double nbr = d(gen);
         cout << "Nombre générer aléatoirement : " << nbr << endl;
@@ -32,6 +30,6 @@ namespace normalDistribution{
     }
 
     double densite(double const x){
-        return (1/(sqrt(2*PI))*exp(-(pow(x,2)/2)));
+        return (1.0 / (sqrt(2 * PI)) * exp(-0.5 * x * x));
     }
 }

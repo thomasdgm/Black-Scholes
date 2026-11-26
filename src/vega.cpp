@@ -9,4 +9,4 @@ namespace vega{
         double n = normalDistribution::densite(d1);
         return (S * sqrt(T) * n)/100.0;
     }
-};
+}
