@@ -13,7 +13,7 @@ namespace normalDistribution{
         static std::mt19937 gen(std::random_device{}());
         std::normal_distribution<double> d(average, deviationType);
         double nbr = d(gen);
-        cout << "Nombre générer aléatoirement : " << nbr << endl;
+        cout << "Number to generate randomly : " << nbr << endl;
         return nbr;
     }
 
@@ -21,7 +21,7 @@ namespace normalDistribution{
         static std::mt19937 gen(std::random_device{}());
         std::normal_distribution<double> d(average, deviationType);
         double nbr = d(gen);
-        cout << "Nombre générer aléatoirement : " << nbr << endl;
+        cout << "Number to generate randomly : " << nbr << endl;
         return nbr;
     }
 

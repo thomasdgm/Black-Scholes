@@ -33,7 +33,7 @@ namespace volatility{
             if (sigma > 5.0)  sigma = 5.0;
         }
 
-        cout << "Il y a une non convergence de sigma (Call)." << endl;
+        cout << "There is a non convergence of sigma (Call)." << endl;
         return std::nan("");
     }
 
@@ -62,8 +62,7 @@ namespace volatility{
             if (sigma < 1e-4) sigma = 1e-4;
             if (sigma > 5.0)  sigma = 5.0;
         }
-
-        cout << "Il y a une non convergence de sigma (Put)." << endl;
+        cout << "There is a non convergence of sigma (Put)." << endl;
         return std::nan("");
     }
 }

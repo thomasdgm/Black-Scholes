@@ -11,25 +11,25 @@
 using namespace std;
 
 int main(){
-    double S = 100.0;    // Prix du sous-jacent
+    double S = 100.0;    // Underlying price
     double K = 100.0;    // Strike
-    double r = 0.05;     // Taux d'intérêt (5%)
-    double sigma = 0.2;  // Volatilité (20%)
-    double T = 1.0; // Temps restant
+    double r = 0.05;     // Interest rate (5%)
+    double sigma = 0.2;  // Volatility (20%)
+    double T = 1.0; // Remaining time
     double d = delta::calculate_delta_call(S, K, r, sigma, T);
-    cout << "(Delta) Si l'action monte de 1€, je gagne : " << d << endl;
+    cout << "(Delta) If the stock goes up by €1, I win : " << d << endl;
     double g = gammas::calculate_gamma(S, K, r, sigma, T);
-    cout << "(Gamma) Si l'action augmente de 1€ alors delta monte de : " << g << endl;
+    cout << "(Gamma) If the stock increases by €1, then the delta rises by : " << g << endl;
     double v = vega::calculate_vega(S, K, r, sigma, T);
-    cout << "(Vega) Si la volatilité augmente de 1%, le prix de l'option varie de : " << v << "€" << endl;
+    cout << "(Vega) If the volatility increases by 1%, the option price varies from : " << v << "€" << endl;
     double t = theta::calculate_theta_call(S, K, r, sigma, T);
-    cout << "(Theta Call) L'option perd : " << t << " chaque jour" << endl;
+    cout << "(Theta Call) The option loses : " << t << " every day" << endl;
     double rho = rho::calculate_rho_call(S, K, r, sigma, T);
-    cout << "(Rho Call) Si le taux d'intérêt augmente de 1%, le prix de l'option varie de : " << rho << "€" << endl;
+    cout << "(Rho Call) If the interest rate increases by 1%, the option price varies by : " << rho << "€" << endl;
     double bC = blackscholes::calculate_pricing_Call(S, K, r, sigma, T);
     double bP = blackscholes::calculate_pricing_Put(S, K, r, sigma, T);
-    cout << "Le prix de l'option Call devrait théoriquement être de : " << bC << endl;
-    cout << "Le prix de l'option Put devrait théoriquement être de : " << bP << endl;
+    cout << "The price of the Call option should theoretically be : " << bC << endl;
+    cout << "The price of the Put option should theoretically be : " << bP << endl;
     double vo = volatility::implied_volatility_Put(S,K,r,T,5.5735);
     cout << vo << endl;
     return 0;

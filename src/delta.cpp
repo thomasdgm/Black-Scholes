@@ -7,7 +7,7 @@ using namespace std;
 namespace delta{
     double calculate_d1(const double S, const double K, const double r, const double sigma, const double T){
         if(S <= 0.0 || K <= 0.0 || sigma <= 0.0 || T <= 0.0){
-            cout << "Erreur : Un des paramètres (S, K, sigma, T) est inférieur ou égal à 0." << endl;
+            cout << "Error: One of the parameters (S, K, sigma, T) is less than or equal to 0." << endl;
             return std::nan("");
         }
         else{
