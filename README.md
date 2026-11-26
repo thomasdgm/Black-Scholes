@@ -6,22 +6,38 @@ Le modèle de Black-Scholes (1973) est très utilisé en finance. Il prend 5 par
 - La volatilité de l'actif (sigma)
 - Le temps restant avant l'échéance (T)
 
+- **Valorisation théorique :** Calcul du prix des options européennes **Call** et **Put**.
+- **Calcul des Grecs :**
+  - **Delta ($\Delta$) & Gamma ($\Gamma$) :** Sensibilité et convexité par rapport au prix du sous-jacent.
+  - **Vega ($\nu$) :** Sensibilité à une variation de $+1\,\%$ de la volatilité.
+  - **Theta ($\Theta$) :** Décroissance temporelle par jour calendaire.
+  - **Rho ($\rho$) :** Sensibilité à une variation de $+1\,\%$ du taux sans risque.
+- **Dashboard interactif (Streamlit & Plotly) :**
+  - Calcul dynamique de la *Moneyness* ($S/K$).
+  - Graphiques de payoff à maturité pour les stratégies **Covered Call** et **Protective Put** avec suivi du spot en temps réel.
+
 ## Equipe
 Thomas Dégremont
 
 ## Structure du projet
-* `src/` : Fichiers sources `.cpp`, `.h`
-* `obj/` : Fichiers objet `.o`
-* `bin/` : Executable générés
-* `doc/` : Documentation du projet
-*Makefile
-*Readme.md
+```text
+Black-Scholes/
+├── src/               # Fichiers sources C++ (.cpp, .h)
+├── obj/               # Fichiers objets compilés (.o)
+├── bin/               # Exécutable de test et bibliothèque partagée (.dll / .so)
+├── doc/               # Documentation générée (Doxygen)
+├── cpp_bridge.py      # Pont Python / C++ via ctypes
+├── app.py             # Interface graphique Streamlit
+├── Makefile           # Automatisation de la compilation
+└── README.md
+```
 
 ## Compilation et Installation
 
 ### Prérequis
 * Un compilateur C++ (g++)
 * Make
+* Python 3.11+ avec streamlit et plotly
 
 ### Installation et lancement
 
@@ -39,7 +55,7 @@ Le projet utilise un Makefile
 ### Lancer la version Txt
 ```
 make
-./bin/BlackScholes
+streamlit run app.py
 ```
 
 ### Générer la documentation
@@ -51,13 +67,3 @@ make doc
 ```
 make clean
 ```
-
-# Fonctionnalité du projet
-Ce moteur quantitatif développé en C++ permet de calculer le prix théorique d'une option, il intègre également :
-- Le calcul des grecs (mesure de sensibilité du prix face aux variations des paramètres du marché)
-    - Delta et Gamma : Sensibilité au prix du sous-jacent
-    - Vega : Sensibilité à la volatilité
-    - Theta : Impact du temps qui passe
-    - Rho : Sensibilité aux taux d'intérêt
-- Un solveur numérique basé sur la méthode de **Newton-Raphson**.
-    À partir d'un prix observé sur le marché, le programme inverse le modèle de Black-Scholes pour extraire la volatilité anticipée par les acteurs du marché.
